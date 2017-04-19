@@ -77,6 +77,8 @@ PaaS平台不仅仅是资源调度和应用托管，它还需要为开发人员�
 
 图1-1中包含以下子系统：
 
+![FIGURE 1-1 Service Fabric architecture](images/Figure_1_1.JPG "FIGURE 1-1 Service Fabric architecture")
+
 + __传输子系统__   传输子系统是Service Fabric的一个内部子系统，它为Service Fabric集群之间，以及Service Fabric集群和客户端之间提供安全的点到点的通信信道。
 + __联邦子系统__   联邦子系统提供故障检测，领导人选举，和一致的路由，这些是构建一个统一的集群的基础。我们接下来的章节将会对这些术语有更多的讨论。
 + __可靠性子系统__ 可靠性子系统管理状态复制，故障转移和负载均衡。这些都是一个高可用和高可靠系统必须具备的。
