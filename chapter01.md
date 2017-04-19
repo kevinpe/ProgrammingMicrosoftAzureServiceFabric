@@ -44,7 +44,7 @@ PaaS平台不仅仅是资源调度和应用托管，它还需要为开发人员�
 >
 > 不断增的复杂性可以很容易地用一些事实说明。 据“美国航空航天局关于飞行软件复杂性的研究“（NASA Office of Chief Engineer, 2009 ），飞行软件的复杂性大约每10年就会以10为增长率的指数级增加。1968年的阿波罗8号有8500行代码，而1989年运行的国际空间站（ISS），拥有150万行代码。
 > 
-> 除了软件的复杂性，数据的量也导致一系列新的问题。 据Twitter统计（公司概况https://about.twitter.com/company），Twitter 每天处理5个亿条消息。 如此规模的数据导入，转换，存储和分析是一个前所未有的挑战。 现代的服务也需要处理潜在的快速增长。 在过去五年左右的时间里，微软Azure存储已经成长为一个每天要处理777万亿事务的服务（查尔斯·巴布科克，微软Azure：更成熟的云平台，信息周刊9月30日，2015年，http://aka.ms/asf/maturecloud）。
+> 除了软件的复杂性，数据的量也导致一系列新的问题。 据Twitter统计（公司概况 https://about.twitter.com/company ），Twitter 每天处理5个亿条消息。 如此规模的数据导入，转换，存储和分析是一个前所未有的挑战。 现代的服务也需要处理潜在的快速增长。 在过去五年左右的时间里，微软Azure存储已经成长为一个每天要处理777万亿事务的服务（查尔斯·巴布科克，微软Azure：更成熟的云平台，信息周刊9月30日，2015年， http://aka.ms/asf/maturecloud ）。
 
 在云平台上，靠增加一台主机的处理能力来扩容并不是一个不太可取的方法。典型情况下，虚拟机按照预先配置的处理能力创建，为了扩容，需要迁移工作负载到一个更强处理能力的虚拟机上。 这是一个漫长而又破坏性的过程，在这个过程中服务需要被关闭，迁移和重新在新的虚拟机上运行。在这个过程中提供的服务也会被中断。另外，由于可选择的虚拟机处理能力也是有限的，可用的容量也会很快用完。尽管Azure提供大量不同处理能力的虚拟机，包括云上最强大的虚拟机，但是大规模的负载任然可以超过任何单台机器的处理能力。
 
@@ -92,6 +92,8 @@ PaaS平台不仅仅是资源调度和应用托管，它还需要为开发人员�
 
 + __节点__   技术上，节点只是Service Fabric的一个运行时进程。在典型的Service Fabric部署中，一台就机器部署一个节点。 所以我们可以把节点理解成一台物理或虚拟机。Service Fabric集群允许同时包含不同处理能力和配置的不同类型节点。
 + __群集__  集群是互相连接节点的集合，这些互相连接的节点构成一个可以运行应用和服务的具有高可用性和可靠性的环境。Service Fabric集群可能由成百上千个节点组成。
+
+![FIGURE 1-2 A Service Fabric cluster](images/Figure_1_2.JPG "FIGURE 1-2 A Service Fabric cluster")
 
 图1-2是一个简单的Service Fabric集群的例子。所有节点都是对等节点，没有主节点或从属节点之分。另外，虽然图中所有节点被安排在一个环上，但事实上任何节点之间都可以通过传输子系统直接通信。
 
@@ -150,7 +152,7 @@ Service Fabric提供了两个高层框架来构建应用：可靠服务API和可
 在这一部分中，首先我们要建立一个本地开发环境，包括本地的多节点集群。我们可以在这个本地集群上部署和测试我们的应用。接下来，我们会在微软Azure上创建一个托管的Service Fabric集群。本书主要在Visual Studio 2015中使用C#进行开发，我们也会简单的介绍如何使用其它语言进行开发，如Node.js。
 
 ### 搭建开发环境
-我们需要Visual Studio 2015和Service Fabric SDK来搭建开发环境，我们可以通过微软Web平台安装程序(Web PI, https://www.microsoft.com/web/downloads/platform.aspx) 安装Service Fabric SDK。按照安装向导，并使用默认安装选项安装，本书使用2.0.135预览版。
+我们需要Visual Studio 2015和Service Fabric SDK来搭建开发环境，我们可以通过微软Web平台安装程序(Web PI, https://www.microsoft.com/web/downloads/platform.aspx ) 安装Service Fabric SDK。按照安装向导，并使用默认安装选项安装，本书使用2.0.135预览版。
 
 另外，下面这些工具也需要安装：
 
@@ -164,7 +166,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 
 > __注意： 订阅微软Azure__
 > 
-> 要使用微软Azure，我们需要订阅微软Azure。如果没有，我们可以在https://azure.microsoft.com/pricing/free-trial/上申请免费一个月的试用。
+> 要使用微软Azure，我们需要订阅微软Azure。如果没有，我们可以在 https://azure.microsoft.com/pricing/free-trial/ 上申请免费一个月的试用。
 
 
 我们可以按照以下步骤在Azure上创建一个新的Service Fabric集群。
@@ -181,7 +183,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 > 
 > __行程(Journey)__ 当我们完成一个工作流程，浏览的步骤被记录为一个行程。在顶部，我们可以看到行程的历史记录，点击任意一步来前进或后退。 行程是被自动记录的，我们可以点击微软Azure标签旁边的向下箭头来查看以前的行程，如下图所示。
 
-1. 登录到微软Azure管理门户（https://portal.azure.com）。
+1. 登录到微软Azure管理门户（ https://portal.azure.com ）。
 2. 点击主页左上角的新建图标，然后点击应用商店。 如如图1-3所示。
 3. 在“所有”类别下，输入并搜索“Service Fabric”， “Service Fabric”集群会出现在搜索结果中，如图1-4。 点击Service Fabric集群，一个新的Service Fabric集群就会开始创建。
 4. 在Service Fabric创建的页面上点击“创建”按钮继续，如图1-5.
@@ -221,7 +223,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 3. 如图1-10，在“New Service Fabric Service ”中选择无状态服务模板，输入HelloWorldService作为项目名，点击OK创建Hello World服务；
 
     现在，这个解决方案中已经用两个项目：一个是叫HelloWorldApplication的Service Fabric应用的项目，另一个是叫HelloWorldService的无状态服务项目。 后面我们会查看里面的其他部分，现在我们先看无状态服务项目的HelloWorldService类。
-
+    
         internal sealed class HelloWorldService : StatelessService
         {
             public HelloWorldService(StatelessServiceContext context): base(context) { }
@@ -243,7 +245,6 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
                 }
             }
         }
-
 
 4. 为了实现无状态服务，我们的服务类需要继承自StatelessService的基类。 Service Fabric不强制要求一个通信协议。 我们可以通过提供一个ICommunicationListener的实现来插入不同的通信栈，在本书中我们后面会看到许多通信栈的实现。 在当前的这个例子中，我们将跳过通信栈，这也就是说我们的服务是一个后台服务，不需要接受任何客户端请求。
 
@@ -313,7 +314,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 ### Service Fabric管理器
 无论是服务器资源管理器还是云资源管理器都被设计成一个完善的管理工具，使用它们能够轻松的浏览和查看云资源和服务器资源， 同时它们也提供有限的管理功能。
 
-Service Fabric SDK提供了一个叫Service Fabric管理器的功能强大的工具。 可以通过浏览器访问http://localhost:19080/Explorer查看它的管理界面。Service Fabric管理器左侧的面板和服务器资源管理器或云资源管理器非常相似。 但是，它在右边的详情页面提供更加详细的信息。如图1-14，显示了当前选择项目的详细信息。
+Service Fabric SDK提供了一个叫Service Fabric管理器的功能强大的工具。 可以通过浏览器访问 http://localhost:19080/Explorer 查看它的管理界面。Service Fabric管理器左侧的面板和服务器资源管理器或云资源管理器非常相似。 但是，它在右边的详情页面提供更加详细的信息。如图1-14，显示了当前选择项目的详细信息。
 
 这本书我们会经常在不同的场景下使用这个工具。 现在，我们先熟悉一下这个工具。 在下面的练习中，我们将从集群中删除我们的Hello World应用。
 
@@ -362,4 +363,4 @@ Windows Powershell是一个强大的自动化和配置管理框架。 Service Fa
 ## 附加说明
 在写本书的时候，Service Fabric还是预览版，未来服务的API，工具的用法，管理界面有可能会有所变化。但是在未来的发布版本中，本书的第一和第二部分所涉及的核心概念，以及第三和第四部分的模式和适用场景应该会保持不变。
 
-访问https://azure.microsoft.com/documentation/services/service-fabric/获取最新的Service Fabric文档。
+访问 https://azure.microsoft.com/documentation/services/service-fabric/ 获取最新的Service Fabric文档。
