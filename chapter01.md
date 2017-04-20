@@ -185,24 +185,23 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 
 1. 登录微软Azure管理门户（ https://portal.azure.com ）。
 2. 点击主页左上角的新建图标，如如图1-3所示。
-![FIGURE 1-3 Create a new resource on Microsoft Azure](images/Figure_1_3.JPG "FIGURE 1-3 Create a new resource on Microsoft Azure")
+    ![FIGURE 1-3 Create a new resource on Microsoft Azure](images/Figure_1_3.JPG "FIGURE 1-3 Create a new resource on Microsoft Azure")
 3. 在搜索应用商店中输入并搜索“Service Fabric Cluster”, 选择Service Fabric集群，一个新的Service Fabric集群就会开始创建, 如图1-4。
-![FIGURE 1-4 Service Fabric in Marketplace](images/Figure_1_4.JPG "FIGURE 1-4 Service Fabric in Marketplace")
+    ![FIGURE 1-4 Service Fabric in Marketplace](images/Figure_1_4.JPG "FIGURE 1-4 Service Fabric in Marketplace")
 4. 在Service Fabric创建的页面上点击“创建”按钮继续，如图1-5.
-![FIGURE 1-5 Service Fabric template blade](images/Figure_1_5.JPG "FIGURE 1-5 Service Fabric template blade")
+    ![FIGURE 1-5 Service Fabric template blade](images/Figure_1_5.JPG "FIGURE 1-5 Service Fabric template blade")
 5. 在基本信息页面，输入集群名字，输入虚拟机用户凭据，选择想使用的Azure订阅，输入新的资源组名称，选择托管集群的地理位置，然后点击确定继续。如图1-6；
-![FIGURE 1-6 Service Fabric Cluster creation blade](images/Figure_1_6.JPG "FIGURE 1-6 Service Fabric Cluster creation blade")
+    ![FIGURE 1-6 Service Fabric Cluster creation blade](images/Figure_1_6.JPG "FIGURE 1-6 Service Fabric Cluster creation blade")
 
     > __注意: Azure资源组__
     > 
     > 资源组是Azure上资源的集合，每一个资源，比如虚拟机或虚拟网络，属于一个资源组。 资源组定义了管理边界和安全边界。我们可以以资源组为逻辑单元创建或者是销毁所有资源。 我们可以应用基于组级的角色的访问控制（group-level Role-Based Access Control）策略， 这些策略将被组立的所有成员继承。
 
 6. 点击节点类型，创建一个新的节点类型配置。在本书的后面，我们会看到更多关于节点类型的信息。在节点类型配置页，输入节点类型名，选择虚拟机类型，输入80作为“自定义终结点”的值，然后点击确定，如图1-7；
-![FIGURE 1-7 Service Fabric Cluster settings blade](images/Figure_1_7.JPG "FIGURE 1-7 Service Fabric Cluster settings blade")
+    ![FIGURE 1-7 Service Fabric Cluster settings blade](images/Figure_1_7.JPG "FIGURE 1-7 Service Fabric Cluster settings blade")
 7. 设置安全模式为非安全模式，按照创建向导的指示完成集群的创建；
 8. 创建过程会持续几分钟，一旦完成创建，我们就可以在仪表盘访问我们创建的集群了。图1-8显示集群的信息，从中我们可以找到集群的公网地址（以 <集群名>.<区域>.cloudapp.azure.com的格式 ）和端口（默认是19000）。后面我们可以用这些信息连接到集群上。
-
-![FIGURE 1-8 Service Fabric cluster blade](images/Figure_1_8.JPG "FIGURE 1-8 Service Fabric cluster blade")
+    ![FIGURE 1-8 Service Fabric cluster blade](images/Figure_1_8.JPG "FIGURE 1-8 Service Fabric cluster blade")
 
 ## Hello, World
 现在是我们用Service Fabric实现一个“Hello World”应用的时候了。
@@ -299,7 +298,6 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 我们可以从Visual Studio的Azure节点下的View\Server Explorer菜单打开服务资源器资源管理器。在这里我们可以看到Servie Fabric集群（本地）节点，如果安装了Azure SDK，我们还可以看见其他Azure资源类型。 图1-12显示了在集群上有5个节点， “Hello World”的应用部署在这个集群上。 你可能已经注意到应用和集群节点是分开显示的，正如我们本章的前面部分介绍的，工作负载和集群资源是隔离的。
 
 ![FIGURE 1-12 Server Explorer](images/Figure_1_12.JPG "FIGURE 1-12 Server Explorer")
-
 图1-12节点的视图显示了一个包含五个节点的集群。下面我们将一一解释应用视图里每一层的含义：
 ### 应用类型节点
 最顶层是一个应用类型节点，它代表一个应用的类型，在这本例中是HelloWorldApplicationType。当我们在Visual Studio中编写应用程序代码 时，我们定义了应用程序类型。当我们在集群上部署应用时，我们就得到了一个应用的实例。这种关系和面向对象的编程（OOP）中类和实例的关系很类似。
@@ -322,14 +320,12 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 
 ### Visual Studio云资源管理器
 微软Azure SDK附带一个叫云资源管理器的VisualStudio扩展，我们可以通过View\Cloud菜单访问。在集群管理功能上，云资源管理器与服务资源管理器类似 ，如图1-13所示。
-
 ![FIGURE 1-13 Cloud Explorer](images/Figure_1_13.JPG "FIGURE 1-13 Cloud Explorer")
 
 ### Service Fabric管理器
 无论是服务器资源管理器还是云资源管理器都被设计成一个完善的管理工具，使用它们能够轻松的浏览和查看云资源和服务器资源， 同时它们也提供有限的管理功能。
 
 Service Fabric SDK提供了一个叫Service Fabric管理器的功能强大的工具。 可以通过浏览器访问 http://localhost:19080/Explorer 查看它的管理界面。Service Fabric管理器左侧的面板和服务器资源管理器或云资源管理器非常相似。 但是，它在右边的详情页面提供更加详细的信息。如图1-14，显示了当前选择项目的详细信息。
-
 ![FIGURE 1-14 Local Cluster Manager](images/Figure_1_14.JPG "FIGURE 1-14 Local Cluster Manager")
 
 这本书我们会经常在不同的场景下使用这个工具。 现在，我们先熟悉一下这个工具。 在下面的练习中，我们将从集群中删除我们的Hello World应用。
@@ -353,7 +349,7 @@ Windows Powershell是一个强大的自动化和配置管理框架。 Service Fa
 
 如果查看HelloWorldApplication的目录，我们可以看到Deploy-FabricApplication.ps的文件。这个脚本调用许多Service Fabric SDK目录（默认C:\Program Files\Microsoft SDKs\Service Fabric\Tools\Scripts）下内置的脚本完成部署，升级，和移除应用。
 
-开始之前，我们打开一个新的Windows PowerShell窗口，并使用Connect-ServiceFabricCluster cmdlet连接到本地集群，如图1-18.
+开始之前，我们打开一个新的Windows PowerShell窗口，并使用Connect-ServiceFabricCluster cmdlet连接到本地集群，如图1-18。
 ![FIGURE 1-18 Connect-ServiceFabricCluster cmdlet](images/Figure_1_18.JPG "FIGURE 1-18 Connect-ServiceFabricCluster cmdlet")
 
 接下来，让我们试试更多命令，后面我们将学习更多的cmdlets.
