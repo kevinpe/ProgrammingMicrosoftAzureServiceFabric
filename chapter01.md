@@ -183,19 +183,25 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 > 
 > __行程(Journey)__ 当我们完成一个工作流程，浏览的步骤被记录为一个行程。在顶部，我们可以看到行程的历史记录，点击任意一步来前进或后退。 行程是被自动记录的，我们可以点击微软Azure标签旁边的向下箭头来查看以前的行程，如下图所示。
 
-1. 登录到微软Azure管理门户（ https://portal.azure.com ）。
-2. 点击主页左上角的新建图标，然后点击应用商店。 如如图1-3所示。
-3. 在“所有”类别下，输入并搜索“Service Fabric”， “Service Fabric”集群会出现在搜索结果中，如图1-4。 点击Service Fabric集群，一个新的Service Fabric集群就会开始创建。
+1. 登录微软Azure管理门户（ https://portal.azure.com ）。
+2. 点击主页左上角的新建图标，如如图1-3所示。
+![FIGURE 1-3 Create a new resource on Microsoft Azure](images/Figure_1_3.JPG "FIGURE 1-3 Create a new resource on Microsoft Azure")
+3. 在搜索应用商店中输入并搜索“Service Fabric Cluster”, 选择Service Fabric集群，一个新的Service Fabric集群就会开始创建, 如图1-4。
+![FIGURE 1-4 Service Fabric in Marketplace](images/Figure_1_4.JPG "FIGURE 1-4 Service Fabric in Marketplace")
 4. 在Service Fabric创建的页面上点击“创建”按钮继续，如图1-5.
+![FIGURE 1-5 Service Fabric template blade](images/Figure_1_5.JPG "FIGURE 1-5 Service Fabric template blade")
 5. 在基本信息页面，输入集群名字，输入虚拟机用户凭据，选择想使用的Azure订阅，输入新的资源组名称，选择托管集群的地理位置，然后点击确定继续。如图1-6；
+![FIGURE 1-6 Service Fabric Cluster creation blade](images/Figure_1_6.JPG "FIGURE 1-6 Service Fabric Cluster creation blade")
 
     > __注意: Azure资源组__
     > 
     > 资源组是Azure上资源的集合，每一个资源，比如虚拟机或虚拟网络，属于一个资源组。 资源组定义了管理边界和安全边界。我们可以以资源组为逻辑单元创建或者是销毁所有资源。 我们可以应用基于组级的角色的访问控制（group-level Role-Based Access Control）策略， 这些策略将被组立的所有成员继承。
 
 6. 点击节点类型，创建一个新的节点类型配置。在本书的后面，我们会看到更多关于节点类型的信息。在节点类型配置页，输入节点类型名，选择虚拟机类型，输入80作为“自定义终结点”的值，然后点击确定，如图1-7；
+![FIGURE 1-7 Service Fabric Cluster settings blade](images/Figure_1_7.JPG "FIGURE 1-7 Service Fabric Cluster settings blade")
 7. 设置安全模式为非安全模式，按照创建向导的指示完成集群的创建；
 8. 创建过程会持续几分钟，一旦完成创建，我们就可以在仪表盘访问我们创建的集群了。图1-8显示集群的信息，从中我们可以找到集群的公网地址（以 <集群名>.<区域>.cloudapp.azure.com的格式 ）和端口（默认是19000）。后面我们可以用这些信息连接到集群上。 
+![FIGURE 1-8 Service Fabric cluster blade](images/Figure_1_8.JPG "FIGURE 1-8 Service Fabric cluster blade")
 
 ## Hello, World
 现在是我们用Service Fabric实现一个“Hello World”应用的时候了。
