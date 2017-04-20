@@ -201,6 +201,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
     ![FIGURE 1-7 Service Fabric Cluster settings blade](images/Figure_1_7.JPG "FIGURE 1-7 Service Fabric Cluster settings blade")
 7. 设置安全模式为非安全模式，按照创建向导的指示完成集群的创建；
 8. 创建过程会持续几分钟，一旦完成创建，我们就可以在仪表盘访问我们创建的集群了。图1-8显示集群的信息，从中我们可以找到集群的公网地址（以 <集群名>.<区域>.cloudapp.azure.com的格式 ）和端口（默认是19000）。后面我们可以用这些信息连接到集群上。
+
     ![FIGURE 1-8 Service Fabric cluster blade](images/Figure_1_8.JPG "FIGURE 1-8 Service Fabric cluster blade")
 
 ## Hello, World
@@ -227,7 +228,8 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 2. 如图1-9，使用Cloud\Service Fabric Application模板创建一个名叫HelloWorldApplication的新项目。
     ![FIGURE 1-9 New Project dialog box](images/Figure_1_9.JPG "FIGURE 1-9 New Project dialog box")
 
-3. 如图1-10，在“New Service Fabric Service ”中选择无状态服务模板，输入HelloWorldService作为项目名，点击OK创建Hello World服务。
+3. 如图1-10，在“New Service Fabric Service”中选择无状态服务模板，输入HelloWorldService作为项目名，点击OK创建Hello World服务。
+
     ![FIGURE 1-10 New Service Fabric Service dialog box](images/Figure_1_10.JPG "FIGURE 1-10 New Service Fabric Service dialog box")
 
     现在，这个解决方案中已经用两个项目：一个是叫HelloWorldApplication的Service Fabric应用的项目，另一个是叫HelloWorldService的无状态服务项目。 后面我们会查看里面的其他部分，现在我们先看无状态服务项目的HelloWorldService类。
@@ -297,8 +299,9 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 ### Visual Studio 服务资源管理器
 我们可以从Visual Studio的Azure节点下的View\Server Explorer菜单打开服务资源器资源管理器。在这里我们可以看到Servie Fabric集群（本地）节点，如果安装了Azure SDK，我们还可以看见其他Azure资源类型。 图1-12显示了在集群上有5个节点， “Hello World”的应用部署在这个集群上。 你可能已经注意到应用和集群节点是分开显示的，正如我们本章的前面部分介绍的，工作负载和集群资源是隔离的。
 
-![FIGURE 1-12 Server Explorer](images/Figure_1_12.JPG "FIGURE 1-12 Server Explorer")
 图1-12节点的视图显示了一个包含五个节点的集群。下面我们将一一解释应用视图里每一层的含义：
+![FIGURE 1-12 Server Explorer](images/Figure_1_12.JPG "FIGURE 1-12 Server Explorer")
+
 ### 应用类型节点
 最顶层是一个应用类型节点，它代表一个应用的类型，在这本例中是HelloWorldApplicationType。当我们在Visual Studio中编写应用程序代码 时，我们定义了应用程序类型。当我们在集群上部署应用时，我们就得到了一个应用的实例。这种关系和面向对象的编程（OOP）中类和实例的关系很类似。
 
@@ -350,6 +353,7 @@ Windows Powershell是一个强大的自动化和配置管理框架。 Service Fa
 如果查看HelloWorldApplication的目录，我们可以看到Deploy-FabricApplication.ps的文件。这个脚本调用许多Service Fabric SDK目录（默认C:\Program Files\Microsoft SDKs\Service Fabric\Tools\Scripts）下内置的脚本完成部署，升级，和移除应用。
 
 开始之前，我们打开一个新的Windows PowerShell窗口，并使用Connect-ServiceFabricCluster cmdlet连接到本地集群，如图1-18。
+
 ![FIGURE 1-18 Connect-ServiceFabricCluster cmdlet](images/Figure_1_18.JPG "FIGURE 1-18 Connect-ServiceFabricCluster cmdlet")
 
 接下来，让我们试试更多命令，后面我们将学习更多的cmdlets.
