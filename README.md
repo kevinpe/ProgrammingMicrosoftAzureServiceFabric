@@ -1,3 +1,3 @@
-中文版 《Programming Microsoft Azure Service Fabric》
+《Programming Microsoft Azure Service Fabric》 中文翻译
 
-https://www.safaribooksonline.com/library/view/programming-microsoft-azure/9781509301904/
+https://www.microsoftpressstore.com/store/programming-microsoft-azure-service-fabric-9781509301881
