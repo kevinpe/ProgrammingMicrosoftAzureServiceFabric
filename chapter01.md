@@ -120,10 +120,10 @@ Service Fabric集群在工作负载和底层基础设施之间提供了一个抽
 
 
 ### 编程模式
-Service Fabric提供了两个高层框架来构建应用：可靠服务API和可靠的Actor API。
+Service Fabric提供了两个高层框架来构建应用：Reliable Service APIs和可靠的Reliable Actor APIs。
 
-+ __可靠服务API__  提供对Service Fabric结构（如可靠集合和通信栈 ）的直接访问。
-+ __可靠Actor API__  提供了一个高层次的抽象，应用可以被建模成许多互相交互的参与者.
++ __Reliable Service APIs__  提供对Service Fabric结构（如可靠集合和通信栈 ）的直接访问。
++ __Reliable Actor APIs__  提供了一个高层次的抽象，应用可以被建模成许多互相交互的参与者.
 
 无状态和有状态服务可以被添加到Service Fabric的可靠服务API框架中。 这两种服务类型的关键区别在于服务的状态是否保存在本地机器节点上。
 
