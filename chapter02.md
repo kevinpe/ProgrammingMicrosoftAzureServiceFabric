@@ -88,10 +88,9 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
     }
     ```
 
-  >和Azure Cloud Service的RunAsync方法对比
-  >
-  >如果熟悉 Azure Cloud Service，你可能还记得Azure Cloud Service要求RunAsyn方法始终保持运行。如果>RunAsync方法失败或者是退出，该实例就会被认为失效，Cloud Service 将尝试重新启动该实例。 对Service Fabric没有这要的要求，在Service Fabric的RunAsync可以完成任务退出，或者是完全忽略RunAsync的实现。而Service Fabric实例可以继续监听，接受和处理客户端请求。
-
+    >和Azure Cloud Service的RunAsync方法对比
+    >
+    >如果熟悉 Azure Cloud Service，你可能还记得Azure Cloud Service要求RunAsyn方法始终保持运行。如果>RunAsync方法失败或者是退出，该实例就会被认为失效，Cloud Service 将尝试重新启动该实例。 对Service Fabric没有这要的要求，在Service Fabric的RunAsync可以完成任务退出，或者是完全忽略RunAsync的实现。而Service Fabric实例可以继续监听，接受和处理客户端请求。
 
 4. 重新编译我们的所有项目，右键点击CalculatorApplication项目并选择发布。 在发布对话框中，选择本地配置， 如图2-6。接下来，点击发布按钮发布应用到本地集群。
 
@@ -101,9 +100,9 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
 
 7. 添加一个链接指向CalculatorService项目下的ICalculatorService.cs文件，把服务合约的定义引入客户端项目。 一个比较好的实现是在一个共享的assebly中定义合约。 本例中，我了简单我们直接引用了该文件。
 
-  >注意： 添加文件链接
-  >
-  >若要添加链接到另一源文件，请右键单击项目并选择“添加\现有项”菜单项。然后，浏览到文件并选择它。或者是直接单击“添加”按钮，单击“添加”按钮旁边的“小三角形”下拉菜单，然后选择“添加”作为链接添加到原始文件的链接（而不是复制）。所有原始文件的更新都反映在链接文件中。
+    >注意： 添加文件链接 
+    >
+    >若要添加链接到另一源文件，请右键单击项目并选择“添加\现有项”菜单项。然后，浏览到文件并选择它。或者是直接单击“添加”按钮，单击“添加”按钮旁边的“小三角形”下拉菜单，然后选择“添加”作为链接添加到原始文件的链接（而不是复制）。所有原始文件的更新都反映在链接文件中。
 
 8. 右键点击CalculatorClient项目，在菜单中选择属性，切换到编译标签，修改目标平台成x64。
 9. 打开Program.cs文件，导入下列名字空间：
@@ -225,8 +224,8 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
     }
     ```  
 7. 运行客户端。客户端将随机的联系实例，并接受返回结果。 如图2-10，客户端连接到实例130897044575029205。
-
-  在Service Fabric浏览器中，打开服务分区查看所有副本。根据客户端输出的实例ID可以找到托管的节点。 在右边面板中选择该节点，点击Actions按钮的“Deactivate”菜单。 模拟节点崩溃。 如图2-11，节点3（托管了副本130897044575029205 ）被选择并关闭，（在不同的环境中有不同的副本ID ）
+    
+    在Service Fabric浏览器中，打开服务分区查看所有副本。根据客户端输出的实例ID可以找到托管的节点。 在右边面板中选择该节点，点击Actions按钮的“Deactivate”菜单。 模拟节点崩溃。 如图2-11，节点3（托管了副本130897044575029205 ）被选择并关闭，（在不同的环境中有不同的副本ID ）
 
 8. 一旦节点被关闭，客户端与原来的服务实例的连接被断开，并自动重连到另一个健康的实例。图2-12显示了本例中中的客户端从新连接到了ID为130897044575029205的副本。这里实际上就是故障转移机制。尽管原来连接的服务实例已经下线，当客户端没有感受到被中断，并自动的从新连接到一个健康的实例。
 
@@ -245,7 +244,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 #### 第三版
 
 1. 修改CalculatorService类， 用WCF通信栈替换掉默认的通信栈。EndpointResourceName指向了服务清单文件中相应的端点配置。 私有方法CreateListenBinding创建一个端点的绑定，我们接下来将实现它。
-
+    ```
     protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
     {
         return new[]
@@ -258,9 +257,10 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
             })
         };
     }
+    ```
 
 2. CreateListenBinding方法。下面的实现中我们直接硬编码值。在实际的产品实现中，我们可以把让这些参数从服务的配置中读取。
-
+    ```
     private NetTcpBinding CreateListenBinding()
     {
       NetTcpBinding binding = new NetTcpBinding(SecurityMode.None)
@@ -277,15 +277,14 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 
             return binding;
     }
-
-
+    ```
 
 3. 从ICalculatorService 移除IService基类接口。
 
 4. 更新服务和应用清单的版本号为3.0.0, 重新编译部署应用。
 
 5. 添加一个新的Client类到CalculateClient项目。
-
+    ```
     public class Client : ServicePartitionClient<WcfCommunicationClient<ICalculatorService>>,ICalculatorService
     {
         public Client(WcfCommunicationClientFactory<ICalculatorService> clientFactory, Uri serviceName)
@@ -301,9 +300,10 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
             return this.InvokeWithRetryAsync(client => client.Channel.Subtract(a, b));
         }
     }
+    ```
 
 6. 修改客户端程序的Main方法:
-
+    ```
     Uri ServiceName = new Uri("fabric:/CalculatorApplication/CalculatorService");
     ServicePartitionResolver serviceResolver = new ServicePartitionResolver(() => new FabricCliet());
 
@@ -312,10 +312,10 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
            (serviceResolver, binding, null), ServiceName);
     Console.WriteLine(calcClient.Add(3, 5).Result);
     Console.ReadKey();
-
+    ```
 
 7. 实现CreateClientConnectionBinding方法，并为客户端创建匹配的绑定。
-
+    ```
     private static NetTcpBinding CreateClientConnectionBinding()
     {
         NetTcpBinding binding = new NetTcpBinding(SecurityMode.None)
@@ -332,7 +332,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
         
       return binding;
     }
-
+    ```
 8. 编译和运行客户端，我们可以看到结果成功的从服务返回。
 
 
@@ -347,13 +347,14 @@ Katana项目是微软实现的OWIN组件。 在本例中，我们将使用Katana
 
 #### OWIN自托管的ICommunicationListener
 如前面所述，为了实现通信栈，我们只需要提供一个ICommunicationListener接口的实现。
-
-  public interface ICommunicationListener
-  {
-      void Abort();
-      Task CloseAsync(CancellationToken cancellationToken);
-      Task<string> OpenAsync(CancellationToken cancellationToken);
-  }
+    ```
+    public interface ICommunicationListener
+    {
+        void Abort();
+        Task CloseAsync(CancellationToken cancellationToken);
+        Task<string> OpenAsync(CancellationToken cancellationToken);
+    }
+    ```
 
 我们应该在OpenAsync 方法中初始化并开始栈，在Abort 和CloseAsync 方法中关闭栈。
 
@@ -375,11 +376,10 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
 
 3. 下一步，我们建建立ASP.NET API。 这里没有什么特殊的地方。 我们只需要建立一个普通的ASP.NET API结构的类，像其它ASP.NET API项目一样。 第一，在WebCalculatorService 项目下创建下列目录。
   * App_Start
-
   * Controllers
 
 4. 在App_Start 目录下的FormatterConfig.cs 中添加一个基本Web API配置类
-
+    ```
     namespace WebCalculatorService
     {
         using System.Net.Http.Formatting;
@@ -390,10 +390,10 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             }
         }
     }
-
+    ```
 
 5. 在App_Start 目录下的RouteConfig.cs中添加一个基本的路由配置类
-
+    ```
     namespace WebCalculatorService
     {
         using System.Web.Http;
@@ -410,10 +410,10 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             }
         }
     }
-
+    ```
 
 6. 在控制器目录下，添加一个DefaultController控制器，它提供计算器的方法。
-
+    ```
     namespace WebCalculatorService.Controllers
     {
         using System.Collections.Generic;
@@ -434,9 +434,9 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             }
         }
     }
-
+    ```
 7. 定义IOwinAppBuilder接口。
-
+    ```
     namespace WebCalculatorService
     {
         using Owin;
@@ -446,9 +446,9 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             void Configuration(IAppBuilder appBuilder);
         }
     }
-
+    ```
 8. 最后，定义一个Startup类，这个类将注册路由和一些其它配置。在这里是ASP.NET Web API框架被加入。
-
+    ```
     namespace WebCalculatorService
     {
         using Owin;
@@ -467,23 +467,22 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             }
         }
     }
-
+    ```
 
 9. 在实现通信栈以前，我们先修改服务清单里的的服务端口配置。
-
-  <Resources>
-      <Endpoints>
-      <Endpoint Name="ServiceEndpoint" Protocol="http" Port="80" Type="Input"/>
-    </Endpoints>
-  </Resources>
-
+    ```
+    <Resources>
+        <Endpoints>
+            <Endpoint Name="ServiceEndpoint" Protocol="http" Port="80" Type="Input"/>
+        </Endpoints>
+    </Resources>
+    ```
 10. 当服务初始化时，Service Fabric会分配请求端口并为服务地址设置适当的ACL。如果没有标明端口，Service Fabric会自动从应用保留端口的范围里选择一个端口。当端口被指定是，SErvice Fabric将尝试分配指定端口。有时，如果端口冲突，分配就会失败。 因此，如果我们的服务不需要监听在固定端口，我们需要避免使用特定端口。
-
 
 12. 然而，如果我们需要监听在某些特定端口（如80端口），我们需要留意在这个集群上部署的其他应用可能已经占用了这个端口。 为了避免这种冲突，Service Fabric会保证在单个节点上只会部署一个无状态服务。所以，在无状态服务里使用固定端口好像相对比较安全的。但是这里任然有一个问题：当我们使用本地集群，运行多个使用固定端口的无状态服务的副本，仍然会有端口冲突。避免这个冲突的方法是，在本地只允许单个实例，只有部署到云上时才进行扩展。 后面章节中，我们将看到如何为不同的环境设置不同的配置。
 
 12. 添加我们的ICommunicationListener实现，添加新的OwinCommunicationListener类到服务项目。
-
+    ```
     namespace WebCalculatorService
     {
         using Microsoft.ServiceFabric.Services;
@@ -505,10 +504,10 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             }
         }
     }
-
+    ```
 
 13. 定义一些局部变量和一个新的构造函数。
-
+    ```
     private readonly IOwinAppBuilder startup;
     private IDisposable serverHandle;
     private string listeningAddress;
@@ -517,10 +516,10 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
     {
         this.startup = startup;
     }
-
+    ```
 
 14. 现在，让我们来实现OpenSync方法。首先，我们需要从ServiceInitializationParameters中读取端点设置，并基于端口构造HTTP URL. OpenSync方法将开始web服务器和返回服务器监听的地址。 Swrvice Fabric 注册返回的地址到命名服务，以便客户端可以查询到正确的通信地址。
-
+    ```
     public Task<string> OpenAsync(CancellationToken cancellationToken)
     {
       EndpointResourceDescription serviceEndpoint = serviceInitializationParameters
@@ -535,10 +534,10 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
         ServiceEventSource.Current.Message("Listening on {0}", resultAddress);
         return Task.FromResult(resultAddress);
     }
-
+    ```
 
 15. 最后，实现CloseAsync和Abort方法。
-
+    ```
     public Task CloseAsync(CancellationToken cancellationToken)
     {
         this.StopWebServer();
@@ -564,9 +563,9 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
             }
         }
     }
-
+    ```
 16. 我们定制的通信栈已经准备好了，只剩下在WebCalculatorService类中返回一个新的实例。
-  
+    ```  
     protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
     {
       return new[]
@@ -575,25 +574,25 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
           new Startup(), initParams))
       };
     }
-
+    ```
 
 在部署新应用之前，简要的看看应用清单里的参数。 Service Fabric应用清单支持在部署是提供不同的配置参数。默认，Service Fabric Visual Studio 为每一个包含的服务生成一个实例数目的配置。在本例中， WebCalculatorService_InstanceCount参数控制我们的计算器服务的实例数目。在下面的代码段中，我们可以看到这个参数是如何被定义和应用的。
-
-  <ApplicationManifest ...>
-    <Parameters>
-      <Parameter Name="WebCalculatorService_InstanceCount" DefaultValue="1" />
-    </Parameters>
-    ...
-    <DefaultServices>
-      <Service Name="WebCalculatorService">
-        <StatelessService ServiceTypeName="WebCalculatorServiceType"
-          InstanceCount="[WebCalculatorService_InstanceCount]">
-        <SingletonPartition />
-      </StatelessService>
-      </Service>
-    </DefaultServices>
-  </ApplicationManifest>
-
+    ```
+    <ApplicationManifest ...>
+        <Parameters>
+            <Parameter Name="WebCalculatorService_InstanceCount" DefaultValue="1" />
+        </Parameters>
+        ...
+        <DefaultServices>
+            <Service Name="WebCalculatorService">
+                <StatelessService ServiceTypeName="WebCalculatorServiceType"
+                    InstanceCount="[WebCalculatorService_InstanceCount]">
+                    <SingletonPartition />
+                </StatelessService>
+            </Service>
+        </DefaultServices>
+    </ApplicationManifest>
+    ```
 
 当从Visual Studio发布Service Fabric应用时，我们可以选择一个配置（在PublishProfiles 目录下），每一个配置有一个不同的参数文件（在ApplicationParameters 目录下）。 如果没有参数很久被提供，或从参数文件里没有匹配的参数被找到，应用里面的缺省值会被使用。
 
@@ -610,7 +609,7 @@ http://localhost:80/webapp/api/subtract?a=8&b=3
 
 ## 附加信息
 
-除了Service Fabric之外，本书中我们使用了多种技术。访问https://msdn.microsoft.com/library/ms731082(v=vs.110).aspx了解更多关于WCF的信息，访问http://www.asp.net/了解更多关于ASP.NET,访问http://owin.org/了解更多关于OWIN的信息。
+除了Service Fabric之外，本书中我们使用了多种技术。访问 https://msdn.microsoft.com/library/ms731082(v=vs.110).aspx 了解更多关于WCF的信息，访问 http://www.asp.net/ 了解更多关于ASP.NET,访问 http://owin.org/ 了解更多关于OWIN的信息。
 
 2016年1月，微软宣布将使用基于新的.NET Core 1.0 的ASP.NET Core 1.0替换ASP.NET 5。 ASP.NET Core 1.0是一个全新的基于.NET core 的Web应用栈。 原来的ASP.NET将继续保持使用ASP.NET 4.6。写本书时，转换还在进行中。
 
