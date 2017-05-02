@@ -28,10 +28,10 @@
 
 6. 保存修改并重新部署我们的应用。
 
-
 当应用被部署后，我们可以看到每一个节点上运行了一个应用实例，如图2-4. 每一个实例监听在一个自动分配的独特的端口上。
 
-##无状态服务的可扩展性和可用性##
+## 无状态服务的可扩展性和可用性
+
 服务的多个实例监听在不同的端口上引入了一个新的问题。 我们可以使用每个副本的特定的地址连接每一个实例，我们可以用一个客户端程序查询特定实例的连接地址。然后，当用户使用web浏览器连接这些服务的时候，他们没有这实例的地址信息，也不具有获取这些实例的地址的能力。理想情况是，他们应该总是连接某个预定义的端口（如80），然后被重定向到工作实例上。对于这种情况，负载均衡是解决可扩展性和可用性的一种可行方案。
 
 ### 可用性
@@ -347,14 +347,14 @@ Katana项目是微软实现的OWIN组件。 在本例中，我们将使用Katana
 
 #### OWIN自托管的ICommunicationListener
 如前面所述，为了实现通信栈，我们只需要提供一个ICommunicationListener接口的实现。
-    ```
-    public interface ICommunicationListener
-    {
-        void Abort();
-        Task CloseAsync(CancellationToken cancellationToken);
-        Task<string> OpenAsync(CancellationToken cancellationToken);
-    }
-    ```
+```
+public interface ICommunicationListener
+{
+    void Abort();
+    Task CloseAsync(CancellationToken cancellationToken);
+    Task<string> OpenAsync(CancellationToken cancellationToken);
+}
+```
 
 我们应该在OpenAsync 方法中初始化并开始栈，在Abort 和CloseAsync 方法中关闭栈。
 
@@ -577,22 +577,22 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
     ```
 
 在部署新应用之前，简要的看看应用清单里的参数。 Service Fabric应用清单支持在部署是提供不同的配置参数。默认，Service Fabric Visual Studio 为每一个包含的服务生成一个实例数目的配置。在本例中， WebCalculatorService_InstanceCount参数控制我们的计算器服务的实例数目。在下面的代码段中，我们可以看到这个参数是如何被定义和应用的。
-    ```
-    <ApplicationManifest ...>
-        <Parameters>
-            <Parameter Name="WebCalculatorService_InstanceCount" DefaultValue="1" />
-        </Parameters>
-        ...
-        <DefaultServices>
-            <Service Name="WebCalculatorService">
-                <StatelessService ServiceTypeName="WebCalculatorServiceType"
-                    InstanceCount="[WebCalculatorService_InstanceCount]">
-                    <SingletonPartition />
-                </StatelessService>
-            </Service>
-        </DefaultServices>
-    </ApplicationManifest>
-    ```
+```
+<ApplicationManifest ...>
+    <Parameters>
+        <Parameter Name="WebCalculatorService_InstanceCount" DefaultValue="1" />
+    </Parameters>
+    ...
+    <DefaultServices>
+        <Service Name="WebCalculatorService">
+            <StatelessService ServiceTypeName="WebCalculatorServiceType"
+                InstanceCount="[WebCalculatorService_InstanceCount]">
+                <SingletonPartition />
+            </StatelessService>
+        </Service>
+    </DefaultServices>
+</ApplicationManifest>
+```
 
 当从Visual Studio发布Service Fabric应用时，我们可以选择一个配置（在PublishProfiles 目录下），每一个配置有一个不同的参数文件（在ApplicationParameters 目录下）。 如果没有参数很久被提供，或从参数文件里没有匹配的参数被找到，应用里面的缺省值会被使用。
 
@@ -612,4 +612,3 @@ http://localhost:80/webapp/api/subtract?a=8&b=3
 除了Service Fabric之外，本书中我们使用了多种技术。访问 https://msdn.microsoft.com/library/ms731082(v=vs.110).aspx 了解更多关于WCF的信息，访问 http://www.asp.net/ 了解更多关于ASP.NET,访问 http://owin.org/ 了解更多关于OWIN的信息。
 
 2016年1月，微软宣布将使用基于新的.NET Core 1.0 的ASP.NET Core 1.0替换ASP.NET 5。 ASP.NET Core 1.0是一个全新的基于.NET core 的Web应用栈。 原来的ASP.NET将继续保持使用ASP.NET 4.6。写本书时，转换还在进行中。
-
