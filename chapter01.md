@@ -77,7 +77,7 @@ PaaS平台不仅仅是资源调度和应用托管，它还需要为开发人员�
 
 图1-1中包含以下子系统：
 
-![FIGURE 1-1 Service Fabric architecture](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_1.JPG "FIGURE 1-1 Service Fabric architecture")
+![FIGURE 1-1 Service Fabric architecture](/images/chapter1/Figure_1_1.JPG "FIGURE 1-1 Service Fabric architecture")
 
 + __传输子系统__   传输子系统是Service Fabric的一个内部子系统，它为Service Fabric集群之间，以及Service Fabric集群和客户端之间提供安全的点到点的通信信道。
 + __联邦子系统__   联邦子系统提供故障检测，领导人选举，和一致的路由，这些是构建一个统一的集群的基础。我们接下来的章节将会对这些术语有更多的讨论。
@@ -93,7 +93,7 @@ PaaS平台不仅仅是资源调度和应用托管，它还需要为开发人员�
 + __节点__   技术上，节点只是Service Fabric的一个运行时进程。在典型的Service Fabric部署中，一台就机器部署一个节点。 所以我们可以把节点理解成一台物理或虚拟机。Service Fabric集群允许同时包含不同处理能力和配置的不同类型节点。
 + __群集__  集群是互相连接节点的集合，这些互相连接的节点构成一个可以运行应用和服务的具有高可用性和可靠性的环境。Service Fabric集群可能由成百上千个节点组成。
 
-![FIGURE 1-2 A Service Fabric cluster](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_2.JPG "FIGURE 1-2 A Service Fabric cluster")
+![FIGURE 1-2 A Service Fabric cluster](/images/chapter1/Figure_1_2.JPG "FIGURE 1-2 A Service Fabric cluster")
 
 图1-2是一个简单的Service Fabric集群的例子。所有节点都是对等节点，没有主节点或从属节点之分。另外，虽然图中所有节点被安排在一个环上，但事实上任何节点之间都可以通过传输子系统直接通信。
 
@@ -184,24 +184,24 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 
 1. 登录微软Azure管理门户（ https://portal.azure.com ）。
 2. 点击主页左上角的新建图标，如如图1-3所示。
-    ![FIGURE 1-3 Create a new resource on Microsoft Azure](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_3.JPG "FIGURE 1-3 Create a new resource on Microsoft Azure")
+    ![FIGURE 1-3 Create a new resource on Microsoft Azure](/images/chapter1/Figure_1_3.JPG "FIGURE 1-3 Create a new resource on Microsoft Azure")
 3. 在搜索应用商店中输入并搜索“Service Fabric Cluster”, 选择Service Fabric集群，一个新的Service Fabric集群就会开始创建, 如图1-4。
-    ![FIGURE 1-4 Service Fabric in Marketplace](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_4.JPG "FIGURE 1-4 Service Fabric in Marketplace")
+    ![FIGURE 1-4 Service Fabric in Marketplace](/images/chapter1/Figure_1_4.JPG "FIGURE 1-4 Service Fabric in Marketplace")
 4. 在Service Fabric创建的页面上点击“创建”按钮继续，如图1-5.
-    ![FIGURE 1-5 Service Fabric template blade](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_5.JPG "FIGURE 1-5 Service Fabric template blade")
+    ![FIGURE 1-5 Service Fabric template blade](/images/chapter1/Figure_1_5.JPG "FIGURE 1-5 Service Fabric template blade")
 5. 在基本信息页面，输入集群名字，输入虚拟机用户凭据，选择想使用的Azure订阅，输入新的资源组名称，选择托管集群的地理位置，然后点击确定继续。如图1-6；
-    ![FIGURE 1-6 Service Fabric Cluster creation blade](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_6.JPG "FIGURE 1-6 Service Fabric Cluster creation blade")
+    ![FIGURE 1-6 Service Fabric Cluster creation blade](/images/chapter1/Figure_1_6.JPG "FIGURE 1-6 Service Fabric Cluster creation blade")
 
     > __注意: Azure资源组__
     > 
     > 资源组是Azure上资源的集合，每一个资源，比如虚拟机或虚拟网络，属于一个资源组。 资源组定义了管理边界和安全边界。我们可以以资源组为逻辑单元创建或者是销毁所有资源。 我们可以应用基于组级的角色的访问控制（group-level Role-Based Access Control）策略， 这些策略将被组立的所有成员继承。
 
 6. 点击节点类型，创建一个新的节点类型配置。在本书的后面，我们会看到更多关于节点类型的信息。在节点类型配置页，输入节点类型名，选择虚拟机类型，输入80作为“自定义终结点”的值，然后点击确定，如图1-7；
-    ![FIGURE 1-7 Service Fabric Cluster settings blade](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_7.JPG "FIGURE 1-7 Service Fabric Cluster settings blade")
+    ![FIGURE 1-7 Service Fabric Cluster settings blade](/images/chapter1/Figure_1_7.JPG "FIGURE 1-7 Service Fabric Cluster settings blade")
 7. 设置安全模式为非安全模式，按照创建向导的指示完成集群的创建；
 8. 创建过程会持续几分钟，一旦完成创建，我们就可以在仪表盘访问我们创建的集群了。图1-8显示集群的信息，从中我们可以找到集群的公网地址（以 <集群名>.<区域>.cloudapp.azure.com的格式 ）和端口（默认是19000）。后面我们可以用这些信息连接到集群上。
 
-    ![FIGURE 1-8 Service Fabric cluster blade](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_8.JPG "FIGURE 1-8 Service Fabric cluster blade")
+    ![FIGURE 1-8 Service Fabric cluster blade](/images/chapter1/Figure_1_8.JPG "FIGURE 1-8 Service Fabric cluster blade")
 
 ## Hello, World
 现在是我们用Service Fabric实现一个“Hello World”应用的时候了。
@@ -225,11 +225,11 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
     > 本机的集群需要管理员权限运行，如果我们需要在本地集群上运行和测试我们的应用，我们需要以管理员的身份运行Visual Studio。
 
 2. 如图1-9，使用Cloud\Service Fabric Application模板创建一个名叫HelloWorldApplication的新项目。
-    ![FIGURE 1-9 New Project dialog box](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_9.JPG "FIGURE 1-9 New Project dialog box")
+    ![FIGURE 1-9 New Project dialog box](/images/chapter1/Figure_1_9.JPG "FIGURE 1-9 New Project dialog box")
 
 3. 如图1-10，在“New Service Fabric Service”中选择无状态服务模板，输入HelloWorldService作为项目名，点击OK创建Hello World服务。
 
-    ![FIGURE 1-10 New Service Fabric Service dialog box](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_10.JPG "FIGURE 1-10 New Service Fabric Service dialog box")
+    ![FIGURE 1-10 New Service Fabric Service dialog box](/images/chapter1/Figure_1_10.JPG "FIGURE 1-10 New Service Fabric Service dialog box")
 
     现在，这个解决方案中已经用两个项目：一个是叫HelloWorldApplication的Service Fabric应用的项目，另一个是叫HelloWorldService的无状态服务项目。 后面我们会查看里面的其他部分，现在我们先看无状态服务项目的HelloWorldService类。
     
@@ -282,7 +282,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
     >推荐使用ETW跟踪和记录日志，ETW速度很快并对我们代码性能影响最小；另外，Service Fabric使用ETW作为内部跟踪机制，我们可以结合service fabric的日志来查看我们应用的日志，这样更加容易理解应用和Service Fabric的关系；最后，ETW可以在本地环境和云上都可以使用，因此我们可以使用相同的跟踪机制，即使是在不同的环境中。
 
 7. 现在，可以按F5运行应用程序。 VisualStudio将启动测试群集，部署应用，并启动服务。 一旦启动服务，我们可以看到“Hello World” 在诊断事件窗口输出，如图1-11所示。
-    ![FIGURE 1-11 Diagnostic Events window](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_11.JPG "FIGURE 1-11 Diagnostic Events window")
+    ![FIGURE 1-11 Diagnostic Events window](/images/chapter1/Figure_1_11.JPG "FIGURE 1-11 Diagnostic Events window")
 
     > __注意： 诊断事件窗口__
     > 如果没有看到诊断事件窗口，可以通过使用View\Other Windows\Diagnostic Event Viewer菜单来打开。 
@@ -299,7 +299,7 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 我们可以从Visual Studio的Azure节点下的View\Server Explorer菜单打开服务资源器资源管理器。在这里我们可以看到Servie Fabric集群（本地）节点，如果安装了Azure SDK，我们还可以看见其他Azure资源类型。 图1-12显示了在集群上有5个节点， “Hello World”的应用部署在这个集群上。 你可能已经注意到应用和集群节点是分开显示的，正如我们本章的前面部分介绍的，工作负载和集群资源是隔离的。
 
 图1-12节点的视图显示了一个包含五个节点的集群。下面我们将一一解释应用视图里每一层的含义：
-![FIGURE 1-12 Server Explorer](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_12.JPG "FIGURE 1-12 Server Explorer")
+![FIGURE 1-12 Server Explorer](/images/chapter1/Figure_1_12.JPG "FIGURE 1-12 Server Explorer")
 
 ### 应用类型节点
 最顶层是一个应用类型节点，它代表一个应用的类型，在这本例中是HelloWorldApplicationType。当我们在Visual Studio中编写应用程序代码 时，我们定义了应用程序类型。当我们在集群上部署应用时，我们就得到了一个应用的实例。这种关系和面向对象的编程（OOP）中类和实例的关系很类似。
@@ -322,25 +322,25 @@ Service Fabric SDK包含了一个本地多节点Service Fabric集群，我们可
 
 ### Visual Studio云资源管理器
 微软Azure SDK附带一个叫云资源管理器的VisualStudio扩展，我们可以通过View\Cloud菜单访问。在集群管理功能上，云资源管理器与服务资源管理器类似 ，如图1-13所示。
-![FIGURE 1-13 Cloud Explorer](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_13.JPG "FIGURE 1-13 Cloud Explorer")
+![FIGURE 1-13 Cloud Explorer](/images/chapter1/Figure_1_13.JPG "FIGURE 1-13 Cloud Explorer")
 
 ### Service Fabric管理器
 无论是服务器资源管理器还是云资源管理器都被设计成一个完善的管理工具，使用它们能够轻松的浏览和查看云资源和服务器资源， 同时它们也提供有限的管理功能。
 
 Service Fabric SDK提供了一个叫Service Fabric管理器的功能强大的工具。 可以通过浏览器访问 http://localhost:19080/Explorer 查看它的管理界面。Service Fabric管理器左侧的面板和服务器资源管理器或云资源管理器非常相似。 但是，它在右边的详情页面提供更加详细的信息。如图1-14，显示了当前选择项目的详细信息。
-![FIGURE 1-14 Local Cluster Manager](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_14.JPG "FIGURE 1-14 Local Cluster Manager")
+![FIGURE 1-14 Local Cluster Manager](/images/chapter1/Figure_1_14.JPG "FIGURE 1-14 Local Cluster Manager")
 
 这本书我们会经常在不同的场景下使用这个工具。 现在，我们先熟悉一下这个工具。 在下面的练习中，我们将从集群中删除我们的Hello World应用。
 
 1. 在Service Fabric管理器的左侧面板中选择fabric:/HelloWorldApplication节点，然后在右侧的面板中点击“Actions”, "Delete Application"菜单项，如图1-15。
 
-    ![FIGURE 1-15 Deleting a new application instance](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_15.JPG "FIGURE 1-15 Deleting a new application instance")
+    ![FIGURE 1-15 Deleting a new application instance](/images/chapter1/Figure_1_15.JPG "FIGURE 1-15 Deleting a new application instance")
 
 2. 在确认删除对话框中点击“Delete Application”, 确认删除。 如图1-16所示。
-    ![FIGURE 1-16 Confirm Application Deletion dialog box](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_16.JPG "FIGURE 1-16 Confirm Application Deletion dialog box")
+    ![FIGURE 1-16 Confirm Application Deletion dialog box](/images/chapter1/Figure_1_16.JPG "FIGURE 1-16 Confirm Application Deletion dialog box")
 
 3. UI每隔几秒会自动刷新。当UI刷新后，会看到应用实例已经被删除，如图1-17.
-    ![FIGURE 1-17 Two application instances](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_17.JPG "FIGURE 1-17 Two application instances")
+    ![FIGURE 1-17 Two application instances](/images/chapter1/Figure_1_17.JPG "FIGURE 1-17 Two application instances")
 
 > __注意：集群重置__
 >
@@ -353,7 +353,7 @@ Windows Powershell是一个强大的自动化和配置管理框架。 Service Fa
 
 开始之前，我们打开一个新的Windows PowerShell窗口，并使用Connect-ServiceFabricCluster cmdlet连接到本地集群，如图1-18。
 
-![FIGURE 1-18 Connect-ServiceFabricCluster cmdlet](https://github.com/kevinpe/ProgrammingMicrosoftAzureServiceFabric/blob/master/images/Figure_1_18.JPG "FIGURE 1-18 Connect-ServiceFabricCluster cmdlet")
+![FIGURE 1-18 Connect-ServiceFabricCluster cmdlet](/images/chapter1/Figure_1_18.JPG "FIGURE 1-18 Connect-ServiceFabricCluster cmdlet")
 
 接下来，让我们试试更多命令，后面我们将学习更多的cmdlets.
 
