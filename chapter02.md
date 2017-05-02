@@ -1,9 +1,10 @@
 
-#第二章： 无状态服务#
+# 第二章： 无状态服务
 
 在第一章我们已经实现了一个不处理任何用户请求的后台服务。虽然后台服务非常有用，但是大多数服务需要接受并处理用户的请求。本章我们将学习如何使用无状态服务处理用户请求。首先我们会学习如何添加ASP.NET 5 Web服务到我们的应用；接下来，我们将学习如何为我们的服务实现一些通用的通信栈来处理不同协议的客户端请求。
 
-##实现ASP.NET 5应用##
+## 实现ASP.NET 5应用
+
 基于云的应用通常都会有Web前端，所以Service Fabric包含了ASP.net Web API模板。通过该模板，我们可以很容易的添加Web API到Service Fabric应用中。在这一节，我们会创建一个带ASP.Net 5 Web API的应用。然后我们会部署它到本地集群和Azure集群上。
 
 创建ASP.NET 5 Web API非常的简单，只需要在添加服务的时候选择ASP.NET 5 Web API模板，一个可部署的Web API的站点就被创建好了。通过下面步骤可以添加ASP.NET 5 Web API到我们的Service Fabric应用中。
@@ -35,26 +36,26 @@
 ##无状态服务的可扩展性和可用性##
 服务的多个实例监听在不同的端口上引入了一个新的问题。 我们可以使用每个副本的特定的地址连接每一个实例，我们可以用一个客户端程序查询特定实例的连接地址。然后，当用户使用web浏览器连接这些服务的时候，他们没有这实例的地址信息，也不具有获取这些实例的地址的能力。理想情况是，他们应该总是连接某个预定义的端口（如80），然后被重定向到工作实例上。对于这种情况，负载均衡是解决可扩展性和可用性的一种可行方案。
 
-###可用性###
+### 可用性
 由于浏览器不知道如何使用命名服务来查找和连接健康的实例，因此这部分逻辑必须在服务端实现。 在服务端可以通过一个包含实例发现逻辑的网关，或者是一个能够路由用户请求到健康节点的负载均衡器来完成这项功能。这里我们将重点放在负载均衡器上，因为Azure提供了这个功能。 通常，负载均衡器探测实例的状态，并分配流量到健康节点上，如图2-5。
 
 在第五章“服务部署和升级”，我们将更多关于如何在我们的Azure服务实例前配置负载均衡器。
 
-###可扩展性###
+### 可扩展性
 由于负载均衡器可以自动的在健康实例之间分配流量， 它同时也是的服务变得可扩展。
 
 在某些场景下，我们可以对无状态服务进行分区，已达到隔离客户的目的。例如，当我们想要发送不同类型的工作负载到不同类型节点时。但是，分区更主要是为了隔离客户，而非提供可扩展性。第五章将会对无状态服务的分区做更多讨论。
 扩展的另外一个层面是部署多个应用实例。 例如，我们可以为每个客户部署一个应用实例，基于特定客户的工作负载来扩展服务实例。这种扩展机制在第五章我们会有更多的讨论。
 
 
-##通信栈的实现##
+## 通信栈的实现
 一个托管ASP.NET 5 Web服务并不是唯一响应用户请求的方式。 正如第一章提到的，Service Fabric允许我们为不同的通信协议实现不同的定制通信栈。通过实现ICommunicationListener接口来定义通信机制。
 接下来，我们将实现一个简单的提供加减操作的计算服务，我们会为这个服务实现三种不同的通信栈。
 
-###默认通信栈###
+### 默认通信栈
 Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本的计算服务将使用这个缺省的通信栈。
 
-####第一版####
+#### 第一版
 1. 运行Visual Studio 2015.。创建一个新的Service Fabric应用CalculatorApplication，应用包含一个无状态服务CalculatorService。
 
 2. 在CalculatorService项目中，定义一个叫ICalculatorService服务合约 。 注意：服务接口需要继承自Microsoft.ServiceFabric.Services.Remoting名字空间下的IService接口。
@@ -111,7 +112,7 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
     using CalculatorService;
     using Microsoft.ServiceFabric.Services.Remoting.Client;
 
-10.如下代码段所示修改Main方法。
+10. 如下代码段所示修改Main方法。
 
   ```
     static void Main(string[] args)
@@ -128,7 +129,7 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
 
 这不是特别令人兴奋，但还是有一些有趣的地方。当客户端连接到服务，它使用URI地址是“fabric:/CalculatorApplication/CalculatorService” ，不是我们熟悉的HTTP或TCP服务地址。这个地址被命名服务转换为服务侦听器端点。图2-8显示本地集群的服务情况（表格一些列可编辑删除）。图中显示，有几个系统服务在运行，包括clustermanagerservice，failovermanagerservice，和namingservice。该图还显示，我们单服务分区下运行五个副本 ，每一个监听在一个独特的net.tcp 地址上。
 
-####Service Fabric应用的模型####
+#### Service Fabric应用的模型
 
 在我们队计算服务做更多修改之前，为了更多的理解service fabric应用的结构，让我们检查一下service fabric应用的模型。
 我们已经知道Service Fabric应用是由服务组成， Service Fabric服务由代码，配置和数据组成。
@@ -139,7 +140,7 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
 
 Service Fabric应用模型是被一个应用程序清单和许多服务清单清楚描述。应用清单描述了应用的结构，服务清单描述了服务中的代码，配置，和数据。应用程序清单和服务清单具有相关的版本号，分别用于标识应用程序类型和服务类型的版本。
 
-#####服务清单#####
+##### 服务清单
 
 我们可以在项目的packageroot文件夹下找到服务的清单。清单是一个具有以下关键元素的xml文件：
 
@@ -175,7 +176,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 
 * DataPackage  服务清单可包含多个DataPackage元素。每个DataPackage元素在PackageRoot有一个对应的文件夹。每个文件夹包含一些可以由该服务使用的任意静态数据文件。
 
-#####应用程序清单#####
+##### 应用程序清单
 应用程序清单描述应用程序的整体结构。具体来说，它描述了在应用程序中有什么样的服务，以及如何将这些服务应该布置到Service Fabric集群。在本书后面，您将了解本文档中的高级元素和属性。现在，只看其中的几个：
 
 * ServiceManifestImport 这个元素定义对组成应用的服务清单的引用
@@ -183,7 +184,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 * DefaultServices  默认服务会在应用实例化的时候自动被创建。除了自动实例化外，默认服务和其它服务并没有任何区别。
 
 
-####第二版####
+#### 第二版
 为了能够知道那个服务实例处理了这个请求，现在我们修改服务返回副本ID和计算结果。 我们首先需要修改服务合约返回字符串，而不是整数。
 
 1. 修改ICalculatorService 接口的返回类型为Task<string> 。
@@ -233,18 +234,18 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 8. 一旦节点被关闭，客户端与原来的服务实例的连接被断开，并自动重连到另一个健康的实例。图2-12显示了本例中中的客户端从新连接到了ID为130897044575029205的副本。这里实际上就是故障转移机制。尽管原来连接的服务实例已经下线，当客户端没有感受到被中断，并自动的从新连接到一个健康的实例。
 
 
->重置集群
+> 重置集群
 >
->关闭节点有时导致本地群变得不稳定。如果你遇见然后意料之外的错误，请通过重置集群恢复集群到健康状态再重试。
+> 关闭节点有时导致本地群变得不稳定。如果你遇见然后意料之外的错误，请通过重置集群恢复集群到健康状态再重试。
 
-###WCF 通信栈###
+### WCF 通信栈
 接下来，我们将查看Service Fabric实现的另外一种通信栈： WCF通信栈。 在这个练习里，我们将修改计算服务使用WCF为客户端提供服务。
 
 >注意： WCF故障排除
 >
 >这个练习不是为了教WCF，所以在这里许多WCF相关的细节不会被提供。如果你对WCF比较熟悉，下面这些代码没有什么惊奇之处。 >如果你遇到一些问题和WCF有点生疏，记住WCF的基本概念： 地址，绑定，和合约。 大部分的WCF问题是由以上三部分的不匹配引>起的。 你可以从https://msdn.microsoft.com/library/ms731082(v=vs.110).aspx. 找到更多关于WCF的资料
 
-####第三版####
+#### 第三版
 
 1. 修改CalculatorService类， 用WCF通信栈替换掉默认的通信栈。EndpointResourceName指向了服务清单文件中相应的端点配置。 私有方法CreateListenBinding创建一个端点的绑定，我们接下来将实现它。
 
@@ -338,16 +339,16 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 8. 编译和运行客户端，我们可以看到结果成功的从服务返回。
 
 
-###定制通信栈###
+### 定制通信栈
 在本节的最后一个练习里，我们将使用OWIN托管ASP.NET Web API的通信栈。如果对这些术语不是很熟悉，下面将会对这些概念做一个简单的介绍。 一旦你准备好，我们将实行一个带有Web API的计算服务。
 
-####OWIN, ASP.NET Web API, 和项目Katana####
+#### OWIN, ASP.NET Web API, 和项目Katana
 
 通常，ASP.NET是和IIS紧密的绑在一起的。 OWIN (OWIN 2015),  Open Web Interface for .NET,的提出是为了解耦ASP.NET应用和web服务器。这个使得我们可以托管ASP.NET应用到任何遵循OWIN规范的web服务器，或者是我们的进程自己作为Web服务器。 图2-13，显示了ＯＷＩＮ的高层架构：　宿主是托管进程，服务器接受客户端的请求并响应。　在请求到达基于各>种框架之上的应用之前，请求在可定制的中间件栈之间被传递。
 
 Katana项目是微软实现的OWIN组件。 在本例中，我们将使用Katana’s OWIN 自托管的实现作为托管和OWIN HttpListener(基于the .NET Framework HttpListener)作为服务器。
 
-####OWIN自托管的ICommunicationListener####
+#### OWIN自托管的ICommunicationListener
 如前面所述，为了实现通信栈，我们只需要提供一个ICommunicationListener接口的实现。
 
   public interface ICommunicationListener
@@ -370,7 +371,7 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
 >
 >下面的例子是受Vaclav Turecek 所启发 azure.microsoft.com: https://azure.microsoft.com/documentation/articles/service-fabric-reliable-services-communication-webapi/.
 
-####第四版####
+#### 第四版
 
 1. 创建一个带WebCalculatorService 无状态服务的WebCalculatorApplication service Fabric应用。
 2. 在WebCalculatorService项目中，添加对Microsoft.AspNet.WebApi.OwinSelfHost NuGet包的引用。
@@ -379,8 +380,6 @@ ICommunicationListener如何与OWIN self-host and ASP.NET Web API协同工作？
   * App_Start
 
   * Controllers
-
-
 
 4. 在App_Start 目录下的FormatterConfig.cs 中添加一个基本Web API配置类
 
@@ -612,7 +611,8 @@ http://localhost:80/webapp/api/add?a=1&b=2
 http://localhost:80/webapp/api/subtract?a=8&b=3
 
 
-##附加信息##
+## 附加信息
+
 除了Service Fabric之外，本书中我们使用了多种技术。访问https://msdn.microsoft.com/library/ms731082(v=vs.110).aspx了解更多关于WCF的信息，访问http://www.asp.net/了解更多关于ASP.NET,访问http://owin.org/了解更多关于OWIN的信息。
 
 2016年1月，微软宣布将使用基于新的.NET Core 1.0 的ASP.NET Core 1.0替换ASP.NET 5。 ASP.NET Core 1.0是一个全新的基于.NET core 的Web应用栈。 原来的ASP.NET将继续保持使用ASP.NET 4.6。写本书时，转换还在进行中。
