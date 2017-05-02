@@ -15,18 +15,16 @@
 
 3. 当应用被创建，发布应用到我们本地集群。 默认情况下，服务会是一个单分区单实例的服务，并监听在一个自动分配的端口上。打开Service Fabrc Explorer，从应用视图里面我们可以查看应用应用实例所在的位置和监听的端口。如图2-2，服务实例是被运行在节点2，监听地址是Http://+:34001。
 
-4. 打开浏览器并访问http://localhost:34001（在不同系统上，端口可能不同）。 我们可以看见一个请求是被发送到web API的values控制器上，如图2-3.
+4. 打开浏览器并访问http://localhost:34001 (在不同系统上，端口可能不同)。 我们可以看见一个请求是被发送到web API的values控制器上，如图2-3.
 
 5. 现在修改我们Service FAbric应用项目下的ApplicationManifest.xml 文件。修改StatelessService元素的InstanceCount属性为-1. 我们应用实例会被部署到每一个节点上。
-
+    ```
     <Service Name="Web1Service">
-
         <StatelessService ServiceTypeName="Web1Type" InstanceCount="-1">
-
           <SingletonPartition />
-
         </StatelessService>
     </Service>
+    ```
 
 6. 保存修改并重新部署我们的应用。
 
@@ -59,15 +57,16 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
 1. 运行Visual Studio 2015.。创建一个新的Service Fabric应用CalculatorApplication，应用包含一个无状态服务CalculatorService。
 
 2. 在CalculatorService项目中，定义一个叫ICalculatorService服务合约 。 注意：服务接口需要继承自Microsoft.ServiceFabric.Services.Remoting名字空间下的IService接口。
-
+    ```
     public interface ICalculatorService: IService
     {
         Task<int> Add(int a, int b);
         Task<int> Subtract(int a, int b);
     }
+    ```
 
 3. 修改CalculatorService 实现服务合约，如下面代码段所示。 在下面代码段中有许多值得注意的地方，首先， 如果我们服务不需要一个长期运行的后端逻辑，我们可以移除RunAsync方法；第二，为了使用缺省的远程通信栈，我们需要创建一个新的ServiceRemotingListener 实例。
-
+    ```
     internal sealed class CalculatorService : StatelessService, ICalculatorService
     {
         public Task<int> Add(int a, int b)
@@ -87,7 +86,7 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
             };
         }
     }
-
+    ```
 
   >和Azure Cloud Service的RunAsync方法对比
   >
@@ -108,13 +107,12 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
 
 8. 右键点击CalculatorClient项目，在菜单中选择属性，切换到编译标签，修改目标平台成x64。
 9. 打开Program.cs文件，导入下列名字空间：
-
+    ```
     using CalculatorService;
     using Microsoft.ServiceFabric.Services.Remoting.Client;
-
+    ```
 10. 如下代码段所示修改Main方法。
-
-  ```
+    ```
     static void Main(string[] args)
     {
       var calculatorClient = ServiceProxy.Create<ICalculatorService>
@@ -123,7 +121,7 @@ Service Fabric已经提供了一个基于RPC代理的通信栈，第一个版本
         Console.WriteLine(result);
         Console.ReadKey();
     }
-  ```
+    ```
 
 11. 客户端程序已经准备好了，我们可以试一试了。 右键点击CalculatorClient项目，并选择Debug\Start菜单。 我们可以看见正确的结果输出，这里输出的是3。有可能会有一些可以忽略的安全警告消息。
 
@@ -145,14 +143,14 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 我们可以在项目的packageroot文件夹下找到服务的清单。清单是一个具有以下关键元素的xml文件：
 
 * ServiceTypes 定义了在服务代码包中支持的服务类型。例如，我们的计算服务清单中声明了它支持一个CalculatorServiceType服务类型。
-
+    ```
     <ServiceTypes>
             <StatelessServiceType ServiceTypeName="CalculatorServiceType" />
     </ServiceTypes>
-
+    ```
 
 * CodePackage  描述了代码包中包含的二进制可执行文件。 一个服务清单可以包含多个代码包。当一个服务类型被Service Fabric实例化的时候， 在清单中的所有代码都被激活，他们的入口函数将被调用。 调用这些入口点来创建一个新的服务进程，这些进程将注册它支持的服务类类型并启动。例如，查看我们的计算器服务项目的CodePackage 元素：
-
+    ```
       <CodePackage Name="Code" Version="1.0.0.0">
           <EntryPoint>
                     <ExeHost>
@@ -160,17 +158,17 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
                     </ExeHost>
            </EntryPoint>
       </CodePackage>
-
+    ```
 
   入口点被定义为CalculatorService.exe 的可执行文件。 
   在我们的例子中，入口点定义为一个可执行的叫CalculatorService.exe。我们的计算服务代码不过是一个引用了Service Fabric库的控制台应用程序。从项目的Main方法中，我们可以看到程序向Service Fabric注册支持的服务类型：
-
+    ```
     using (FabricRuntime fabricRuntime = FabricRuntime.Create())
     {
       fabricRuntime.RegisterServiceType("CalculatorServiceType", typeof(CalculatorService));
       ...
     }
-
+    ```
 
 * ConfigPackage 服务清单可包含许多ConfigPackage 元素，每一个都是由名称属性标识。服务项目的PackageRoot文件夹下，每一个ConfigPackage 元素应该有一个具有相同的名称的文件夹。在每个文件夹下有一个settings.xml文件，其中包含可以在运行时加载键/值对的设置。
 
@@ -187,17 +185,16 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 #### 第二版
 为了能够知道那个服务实例处理了这个请求，现在我们修改服务返回副本ID和计算结果。 我们首先需要修改服务合约返回字符串，而不是整数。
 
-1. 修改ICalculatorService 接口的返回类型为Task<string> 。
-
+1. 修改ICalculatorService 接口的返回类型为Task<string>。
+    ```
     public interface ICalculatorService: Iservice
-
     {
         Task<string> Add(int a, int b);
         Task<string> Subtract(int a, int b);
     }
-
+    ```
 2. 在CalculatorService 类中修改计算方法的实现。下面的代码段演示了如何使用StatelessService 的ServiceInitializationParameters 属性访问当前实例（副本）ID。
-
+    ````
     public Task<string> Add(int a, int b)
     {
         return Task.FromResult<string>(string.Format("Instance {0} returns: {1}",
@@ -209,7 +206,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
             this.ServiceInitializationParameters.InstanceId,
             a - b));
     }
-
+    ```
 3. 因为我们需要修改服务合约， 我们有理由把修改后的服务称为版本2。我们需要修改服务清单和应用清单。修改CalculatorService项目PackageRoot目录下的ServiceManifest.xml 文件，修改ServiceManifest和CodePackage元素的Version属性为2.0.0.0。 代码包和服务的版本都会被更新为2.0.0.0.
 
 4. 编辑CalculatorApplication项目的ApplicationManifest.xml，修改ApplicationManifest  元素的ApplicationTypeVersion 属性和ServiceManifestRef  元素的ServiceManifestVersion 属性为“2.0.0.0”. 这个将更新应用版本为“2.0.0.0”，并引用新版本的服务。
@@ -217,7 +214,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
 5. 重新编译部署应用到我们的本地节点。
 
 6. 修改客户端，循环调用服务。
-  
+    ```  
     while (true)
     {
           var calculatorClient = ServiceProxy.Create<ICalculatorService>(new
@@ -226,7 +223,7 @@ Service Fabric应用模型是被一个应用程序清单和许多服务清单清
           Console.WriteLine(result);
           Thread.Sleep(3000);
     }
-  
+    ```  
 7. 运行客户端。客户端将随机的联系实例，并接受返回结果。 如图2-10，客户端连接到实例130897044575029205。
 
   在Service Fabric浏览器中，打开服务分区查看所有副本。根据客户端输出的实例ID可以找到托管的节点。 在右边面板中选择该节点，点击Actions按钮的“Deactivate”菜单。 模拟节点崩溃。 如图2-11，节点3（托管了副本130897044575029205 ）被选择并关闭，（在不同的环境中有不同的副本ID ）
